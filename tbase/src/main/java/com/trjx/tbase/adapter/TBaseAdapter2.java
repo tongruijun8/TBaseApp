@@ -7,23 +7,25 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import androidx.annotation.LayoutRes;
+
 import java.util.List;
 
 /**
- * Created by Administrator on 2017/10/9.
- */
-
-public abstract class TBaseAdapter<T> extends BaseAdapter {
+*
+* 作者：小童
+* 创建时间：2019/7/19 10:36
+*
+* 描述：此为TBaseAdapter 的简化版，封装了TBaseViewHolder，方便使用，对于一般需求的可以使用此Adapter
+*
+*/
+public abstract class TBaseAdapter2<T,ViewHolder extends TBaseViewHolder2> extends BaseAdapter{
 
     protected Context context;
     protected List<T> tList;
     protected LayoutInflater inflater;
 
-//    protected String formatDatetime = "yyyy-MM-dd HH:mm:ss";
-//    protected String formatDatetime2 = "yyyy-MM-dd HH:mm";
-//    protected String formatDatetime3 = "yyyy-MM-dd";
-
-    public TBaseAdapter(Context context, List<T> tList) {
+    public TBaseAdapter2(Context context, List<T> tList) {
         this.context = context;
         this.tList = tList;
         inflater = LayoutInflater.from(context);
@@ -46,12 +48,37 @@ public abstract class TBaseAdapter<T> extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return bindView(position, convertView, parent);
+        ViewHolder viewHolder = null;
+        if (null == convertView) {
+            convertView = inflater.inflate(initLayout(), null);
+            viewHolder = initViewHolder(convertView);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+        bindView(position, viewHolder);
+        return convertView;
     }
 
-    //绑定数据
-    public abstract View bindView(int position, View convertView, ViewGroup parent);
+    /**
+     * 初始化item布局文件
+     * @return
+     */
+    public abstract @LayoutRes int initLayout();
 
+    /**
+     * 初始化ViewHolder：需要集成TBaseViewHolder
+     * @param convertView
+     * @return
+     */
+    public abstract ViewHolder initViewHolder(View convertView);
+
+    /**
+     * 绑定数据
+     * @param position
+     * @param viewHolder
+     */
+    public abstract void bindView(int position, ViewHolder viewHolder);
 
     /**
      * 局部更新数据，调用一次getView()方法；Google推荐的做法
@@ -101,5 +128,4 @@ public abstract class TBaseAdapter<T> extends BaseAdapter {
 
         return true;
     }
-
 }

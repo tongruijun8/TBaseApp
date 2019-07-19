@@ -9,7 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".activity.test.TestSearchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -21,25 +29,15 @@
                 android:resource="@xml/provider_filepaths" />
         </provider>
 
-
-        <activity android:name=".test.RvActivity">
-
-        </activity>
+        <activity android:name=".test.RvActivity"></activity>
         <activity android:name=".activity.TestImageViewTopActivity" />
         <activity
             android:name=".activity.GuideActivity"
-            android:theme="@style/AppTheme.NoActionBar.welcome">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar.welcome"></activity>
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.MainNavActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".activity.MainNavActivity">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

@@ -14,6 +14,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.trjx.R;
+import com.trjx.tbase.adapter.TBaseAdapter2;
+import com.trjx.tbase.module.titlemodule.TitleListenter;
+import com.trjx.tbase.module.titlemodule.TitleModule;
 import com.trjx.tlibs.uils.Logger;
 import com.trjx.tlibs.uils.SharedPreferencesUtils;
 import com.trjx.tlibs.uils.ToastUtil;
@@ -26,7 +29,9 @@ import java.util.List;
  * Created by W on 2018/3/24.
  */
 
-public abstract class SearchActivity extends BaseActivity implements AdapterView.OnItemClickListener {
+public abstract class SearchActivity<B,Adapter extends TBaseAdapter2>
+        extends InitActivity
+        implements AdapterView.OnItemClickListener, TitleListenter {
 
     public static String searchHistory = "SearchHistory";
 
@@ -37,18 +42,30 @@ public abstract class SearchActivity extends BaseActivity implements AdapterView
 
     private ListView listview_history;
 
-    private ImageView empty;
+    protected ImageView empty;
+
+    protected TitleModule titleModule;
+
+    protected boolean isShowSearchBtn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        initWork();
+        initView();
     }
 
     @Override
     protected void initView() {
-        super.initView();
+        titleModule = new TitleModule(context, rootView);
+        titleModule.setListenter(this);
         titleModule.initTitle(null,true);
+
+        if(isShowSearchBtn){
+            titleModule.initTitleMenu(TitleModule.MENU_TEXT,"搜索");
+        }
+
 
         editText = findViewById(R.id.title_center_text);
 
@@ -74,22 +91,17 @@ public abstract class SearchActivity extends BaseActivity implements AdapterView
 
         editText.setOnKeyListener((v, keyCode, event) -> {
             Logger.t("-----keyCode = " + keyCode);
-            if (keyCode == KeyEvent.KEYCODE_ENTER && isSearch) {
-                String ssStr = editText.getText().toString().trim();
-                if(ssStr.equals("")){
-                    ToastUtil.showToast(context,"搜索内容不能为空");
-                    return true;
-                }
-                isSearch = false;
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-//                    ToastUtil.showToast(context,"搜索内容："+ssStr);
-                Logger.t("---------ss = " + ssStr);
-                searchData(ssStr);
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                searchBefore();
                 return true;
             }
             return false;
         });
+
+    }
+
+
+    protected void setShowSearchBtn(){
 
     }
 
@@ -120,10 +132,27 @@ public abstract class SearchActivity extends BaseActivity implements AdapterView
         }
     }
 
+    private void searchBefore(){
+        if(!isSearch){
+            return;
+        }
+        String ssStr = editText.getText().toString().trim();
+        if(ssStr.equals("")){
+            ToastUtil.showToast(context,"搜索内容不能为空");
+            return;
+        }
+        isSearch = false;
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+//                    ToastUtil.showToast(context,"搜索内容："+ssStr);
+        Logger.t("---------ss = " + ssStr);
+        searchData(ssStr);
+    }
+
     private void searchData(String searchStr){
         historyLL.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
-//        kcInfoList.clear();
+        infoList.clear();
         searchPost(searchStr);
         historyData.add(0, searchStr);
         changeSearchData(searchStr);
@@ -157,33 +186,52 @@ public abstract class SearchActivity extends BaseActivity implements AdapterView
     //    搜索请求
     protected abstract void searchPost(String searchStr);
 
-//    private List<RespKcInfoJB> kcInfoList = new ArrayList<>();
-//
-//    private SearchKcAdapter adapter;
-//
-//    @Override
-//    public void getSearchList(TBaseRespJB2<List<RespKcInfoJB>> kcInfoJBList) {
-//        isSearch = true;
-//        List<RespKcInfoJB> kcList =  kcInfoJBList.getData();
-//        if(null!=kcList){
-//            kcInfoList.addAll(kcList);
-//        }
-//        if(kcInfoList.size()==0){
-//            empty.setVisibility(View.VISIBLE);
-//        }else{
-//            empty.setVisibility(View.GONE);
-//        }
-//        if(null == adapter){
-//            adapter = new SearchKcAdapter(context, kcInfoList);
-//            listView.setAdapter(adapter);
-//            listView.setOnItemClickListener(this);
-//        }else{
-//            adapter.notifyDataSetChanged();
-//        }
-//    }
+    protected List<B> infoList = new ArrayList<>();
+
+    private Adapter adapter;
+
+    public void getSearchDataList(List<B> infoList) {
+        isSearch = true;
+        if(infoList == null || infoList.size()==0){
+            empty.setVisibility(View.VISIBLE);
+        }else{
+            empty.setVisibility(View.GONE);
+            this.infoList.addAll(infoList);
+        }
+        if(null == adapter){
+            adapter = initAdapter(this.infoList);
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(this);
+        }else{
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    protected abstract Adapter initAdapter(List<B> infoList);
+
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onClickBack(View view) {
+        finish();
+    }
+
+    @Override
+    public void onClickLeftText(View view) {
+
+    }
+
+    @Override
+    public void onClickRightText(View view) {
+        searchBefore();
+    }
+
+    @Override
+    public void onClickMenu(View view) {
+
+    }
+
+    @Override
+    public void onMenuItemClick(int position) {
 
     }
 }
