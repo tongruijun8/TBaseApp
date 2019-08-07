@@ -31,7 +31,6 @@ public class InitActivity extends AppCompatActivity implements TView {
     public ActivityManager activityManager;
     public NetWorkManage netWorkManage;
 
-
     /**
      * Activity的初始化方法
      */
@@ -212,7 +211,16 @@ public class InitActivity extends AppCompatActivity implements TView {
      * @param cls
      */
     public void skipActivity(Class<?> cls) {
-        startActivity(new Intent(context, cls));
+        skipActivity(cls, -1);
+    }
+    public void skipActivity(Class<?> cls,int requestCode) {
+        skipActivity(new Intent(context,cls),requestCode);
+    }
+    public void skipActivity(Intent intent) {
+        skipActivity(intent, -1);
+    }
+    public void skipActivity(Intent intent,int requestCode) {
+        startActivityForResult(intent,requestCode,null);
     }
 
 }

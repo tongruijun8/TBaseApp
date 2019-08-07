@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fafafa"
+    android:background="@color/page_bg_color"
     >
 
     <!-- 注：经测试ConstraintLayout，只能作为跟布局，不可以嵌套使用 -->

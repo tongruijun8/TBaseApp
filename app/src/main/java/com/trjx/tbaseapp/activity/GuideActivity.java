@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.trjx.tbase.activity.GuidePageActivity;
 import com.trjx.tbaseapp.R;
-import com.trjx.tbaseapp.test.RvActivity;
+import com.trjx.tbaseapp.test.test2.Rv2Activity;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class GuideActivity extends GuidePageActivity {
 
     @Override
     protected void onClickSkipView() {
-        skipActivity(RvActivity.class);
+        skipActivity(Rv2Activity.class);
     }
 
 

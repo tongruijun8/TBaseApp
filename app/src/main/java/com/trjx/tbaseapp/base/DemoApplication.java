@@ -7,5 +7,6 @@ public class DemoApplication extends InitApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+
     }
 }

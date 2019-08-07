@@ -12,13 +12,13 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <com.trjx.tbase.module.listmodule.xlistviewmodule.XListView
+    <com.trjx.tbase.module.xlistviewmodule.XListView
         android:id="@+id/xlistview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/transparent"
         android:dividerHeight="0dp"
-        ></com.trjx.tbase.module.listmodule.xlistviewmodule.XListView>
+        ></com.trjx.tbase.module.xlistviewmodule.XListView>
 
     <include layout="@layout/layout_defaultpage"/>
 

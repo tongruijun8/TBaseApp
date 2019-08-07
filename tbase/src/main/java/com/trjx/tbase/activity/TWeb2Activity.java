@@ -15,16 +15,13 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.trjx.R;
+import com.trjx.tbase.module.titlemodule.TitleListenter;
+import com.trjx.tbase.module.titlemodule.TitleModule;
 
-/**
- * 此类继承 BaseActivity
- *
- * 推荐使用：TWeb2Activity
- *
- */
-@Deprecated
-public abstract class TWebActivity extends BaseActivity implements TWebJsConstraint {
 
+public abstract class TWeb2Activity extends InitActivity implements TWebJsConstraint, TitleListenter {
+
+    private TitleModule titleModule;
 
     protected WebView webView;
     private ProgressBar progressBar;
@@ -37,12 +34,20 @@ public abstract class TWebActivity extends BaseActivity implements TWebJsConstra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_webview);
+    }
+
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+        initWork();
+        initView();
     }
 
     @Override
     protected void initView() {
-        super.initView();
+        titleModule = new TitleModule(context, rootView);
+        titleModule.setListenter(this);
+
         webView = findViewById(R.id.webview);
         progressBar = findViewById(R.id.progressBar);
 
@@ -280,4 +285,28 @@ public abstract class TWebActivity extends BaseActivity implements TWebJsConstra
         webView.getSettings().setJavaScriptEnabled(false);
     }
 
+    @Override
+    public void onClickBack(View view) {
+        finish();
+    }
+
+    @Override
+    public void onClickLeftText(View view) {
+
+    }
+
+    @Override
+    public void onClickRightText(View view) {
+
+    }
+
+    @Override
+    public void onClickMenu(View view) {
+
+    }
+
+    @Override
+    public void onMenuItemClick(int position) {
+
+    }
 }

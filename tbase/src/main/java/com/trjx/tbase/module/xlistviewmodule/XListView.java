@@ -1,4 +1,4 @@
-package com.trjx.tbase.module.listmodule.xlistviewmodule;
+package com.trjx.tbase.module.xlistviewmodule;
 
 import android.annotation.TargetApi;
 import android.content.Context;

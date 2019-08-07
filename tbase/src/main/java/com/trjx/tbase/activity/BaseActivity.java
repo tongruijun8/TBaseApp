@@ -30,6 +30,7 @@ import com.trjx.tlibs.uils.Logger;
  * @author tong
  * @date 2018/3/16 15:52
  */
+@Deprecated
 public class BaseActivity extends InitActivity implements TitleListenter {
 
     public View rootMask;

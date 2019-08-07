@@ -1,9 +1,8 @@
-package com.trjx.tbase.activity;
+package com.trjx.tbase.fragment;
 
 import android.annotation.TargetApi;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -15,16 +14,10 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.trjx.R;
+import com.trjx.tbase.activity.TWebJsConstraint;
 
-/**
- * 此类继承 BaseActivity
- *
- * 推荐使用：TWeb2Activity
- *
- */
-@Deprecated
-public abstract class TWebActivity extends BaseActivity implements TWebJsConstraint {
 
+public abstract class TWeb2Fragment extends TInitFragment implements TWebJsConstraint {
 
     protected WebView webView;
     private ProgressBar progressBar;
@@ -35,16 +28,9 @@ public abstract class TWebActivity extends BaseActivity implements TWebJsConstra
     private String mBeforeText = "";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_webview);
-    }
-
-    @Override
-    protected void initView() {
-        super.initView();
-        webView = findViewById(R.id.webview);
-        progressBar = findViewById(R.id.progressBar);
+    protected void initFragmentView(View view) {
+        webView = view.findViewById(R.id.webview);
+        progressBar = view.findViewById(R.id.progressBar);
 
         webSettings = webView.getSettings();
         initWebSetting(webSettings);
@@ -64,7 +50,7 @@ public abstract class TWebActivity extends BaseActivity implements TWebJsConstra
         webSettings.setDatabaseEnabled(true);
         WebView.setWebContentsDebuggingEnabled(true);
         // 支持本地存储
-        webSettings.setDatabasePath(this.getApplicationContext().getCacheDir().getAbsolutePath());
+        webSettings.setDatabasePath(activity.getApplicationContext().getCacheDir().getAbsolutePath());
 
         // 设置允许JS弹窗
 //        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
@@ -175,96 +161,11 @@ public abstract class TWebActivity extends BaseActivity implements TWebJsConstra
         webView.loadUrl("javascript:" + jsMethodName);
     }
 
-    //    public boolean onTJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
-//
-////        if ( uri.getScheme().equals("appjs")) {
-////            if (uri.getAuthority().equals("getHelperToken")) {
-//////                        result.confirm(getHelperToken());
-////            }else if(uri.getAuthority().equals("getHelperinfo")){
-//////                        result.confirm(getHelperinfo());
-////            }else if(uri.getAuthority().equals("share")){
-////                //                       share();
-////                //                      showShare("家护帮","分享竞赛",null,"http://checkout-pk.jiahubang.com:8001/pkWeb/index.html?pkActivityId=31");
-////                result.cancel();
-////            }else if(uri.getAuthority().equals("closePage")){
-//////                        closePage();
-////                result.cancel();
-////            }else{
-////                result.cancel();
-////            }
-////            return true;
-////        }
-//        return false;
-//    }
-
-//    private JsConstraint jsConstraint;
-//
-//    public interface JsConstraint {
-//        void getMethodName(String methodName,Uri uri,JsPromptResult result);
-//    }
-
-
-//    private EditText editText;
-//    private void initPostPath() {
-//        editText = new EditText(this);
-//        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.view_h));
-//        editText.setLayoutParams(layoutParams);
-//        editText.setText("111");
-//        editText.setVisibility(View.VISIBLE);
-//        AlertDialog dialog = new AlertDialog.Builder(context)
-//                .setIcon(getResources().getDrawable(R.mipmap.logo))
-//                .setTitle("选择请求路径：")
-//                .setCancelable(false)
-//                .setView(editText)
-//                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        String ipStr = editText.getText().toString().trim();
-//                        webView.loadUrl("http://192.168.2." + ipStr + ":3000/pkWeb/index.html?pkActivityId=31");
-////                        http://192.168.2.121:3000/pkWeb/index.html?pkActivityId=31
-//
-//                    }
-//                })
-//                .create();
-//        dialog.show();
-//    }
-
-    //
-//    /**
-//     * 获取雇工编号
-//     * @return
-//     */
-//    private String getHelperToken(){
-//        return Constants.token;
-//    }
-//
-//    /**
-//     * 获取雇工编号
-//     * @return
-//     */
-//    private String getHelperinfo(){
-//        return Constants.helperCode;
-//    }
-//
-//    /**
-//     * 吊起分享
-//     */
-//    private void share(){
-//        showShare();
-//    }
-//
-//    /**
-//     * 关闭页面
-//     */
-//    private void closePage(){
-//        finish();
-//    }
-//
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         //清空所有Cookie
-        CookieSyncManager.createInstance(this);  //Create a singleton CookieSyncManager within a context
+        CookieSyncManager.createInstance(activity.context);  //Create a singleton CookieSyncManager within a context
         CookieManager cookieManager = CookieManager.getInstance(); // the singleton CookieManager instance
         cookieManager.removeAllCookie();// Removes all cookies.
         CookieSyncManager.getInstance().sync(); // forces sync manager to sync now
@@ -273,11 +174,12 @@ public abstract class TWebActivity extends BaseActivity implements TWebJsConstra
 //        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.clearCache(true);
         webView.clearFormData();
-        getCacheDir().delete();
+        activity.getCacheDir().delete();
 
         webView.setWebChromeClient(null);
         webView.setWebViewClient(null);
         webView.getSettings().setJavaScriptEnabled(false);
     }
+
 
 }

@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface RvView extends TView {
 
-    void testSuccess(List<TestBean> testBeanList);
+    void testSuccess(List<?> testBeanList);
 
 }

@@ -1,4 +1,4 @@
-package com.trjx.tbase.module.listmodule.xlistviewmodule;
+package com.trjx.tbase.module.xlistviewmodule;
 
 public interface TXBindDataListenter {
 

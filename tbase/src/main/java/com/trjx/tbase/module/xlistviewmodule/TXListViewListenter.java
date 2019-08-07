@@ -1,4 +1,4 @@
-package com.trjx.tbase.module.listmodule.xlistviewmodule;
+package com.trjx.tbase.module.xlistviewmodule;
 
 /**
  * @author tong
@@ -9,12 +9,12 @@ public interface TXListViewListenter{
     /**
      * 异常页面点击事件：1.可以处理数据异常的页面；2.还可以处理网络异常的页面
      */
-    void exceptionPageClickEvent();
+    void onClickXListExceptionPageEvent();
 
     /**
      * 获取列表数据
      */
-    void getData(int page);
+    void getXListData(int page);
 
 
 

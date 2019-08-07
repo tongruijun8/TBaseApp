@@ -1,4 +1,4 @@
-package com.trjx.tbase.module.listmodule.xlistviewmodule;
+package com.trjx.tbase.module.xlistviewmodule;
 
 import android.content.Context;
 import android.util.AttributeSet;

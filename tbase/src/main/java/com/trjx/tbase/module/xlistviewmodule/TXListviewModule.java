@@ -1,4 +1,4 @@
-package com.trjx.tbase.module.listmodule.xlistviewmodule;
+package com.trjx.tbase.module.xlistviewmodule;
 
 import android.os.Handler;
 import android.view.View;
@@ -34,7 +34,7 @@ public class TXListviewModule implements XListView.IXListViewListener {
     public static final int TIME_LR = 2000;
 
     /* 每页大小 */
-    private int pageSize = 10;
+    private int pageSize = 20;
 
     private ProgressBar mProgressBar;
     private XListView xListView;
@@ -93,7 +93,7 @@ public class TXListviewModule implements XListView.IXListViewListener {
     }
 
     public TXListviewModule(View rootView, boolean openRefresh, boolean openLoad) {
-        setPageSize(10);//默认值
+        setPageSize(20);//默认值
         setPage(1);
         initView(rootView,openRefresh,openLoad);
         isShowListView(false);
@@ -120,12 +120,12 @@ public class TXListviewModule implements XListView.IXListViewListener {
                 if (state == 2){//点击异常页面
                     state = 0;
                     if (null != listenter) {
-                        listenter.exceptionPageClickEvent();
+                        listenter.onClickXListExceptionPageEvent();
                     }
                 }else if(state == 1){
                     state = 0;
                     if (null != listenter) {
-                        listenter.getData(page);
+                        listenter.getXListData(page);
                     }
                 }
             }
@@ -188,7 +188,7 @@ public class TXListviewModule implements XListView.IXListViewListener {
             public void run() {
                 page = 1;
                 if (null != listenter) {
-                    listenter.getData(page);
+                    listenter.getXListData(page);
                 }
             }
         }, TIME_LR);
@@ -201,7 +201,7 @@ public class TXListviewModule implements XListView.IXListViewListener {
             public void run() {
                 page++;
                 if (null != listenter) {
-                    listenter.getData(page);
+                    listenter.getXListData(page);
                 }
             }
         }, TIME_LR);
