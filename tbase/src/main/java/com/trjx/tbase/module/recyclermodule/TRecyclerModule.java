@@ -30,11 +30,6 @@ public class TRecyclerModule {
     private Builder builder;
 
     /**
-     * 加载刷新时间
-     */
-    public static final int TIME_LR = 2000;
-
-    /**
      * 当前页面状态：0.正常；1.默认页面；2.异常页面
      */
     private int state = 0;
@@ -49,7 +44,6 @@ public class TRecyclerModule {
     private RecyclerView recyclerView;
 
     private void initView(View rootView) {
-
         defRl = rootView.findViewById(R.id.layout_default_all);
         defImg = rootView.findViewById(R.id.layout_default_img);
         defText = rootView.findViewById(R.id.layout_default_text);
@@ -58,7 +52,7 @@ public class TRecyclerModule {
                 return;
             }
             defRl.setVisibility(View.GONE);
-            isShowListLayout(false);
+            isShowListLayout(true);
             if (state == 2) {//点击请求异常页面的事件
                 state = 0;
                 if (null != builder.listenter) {
@@ -67,6 +61,7 @@ public class TRecyclerModule {
             } else if (state == 1) {//点击暂无数据页面的事件，重新请求页面数据
                 state = 0;
                 if (null != builder.listenter) {
+                    setRefreshing(true);
                     builder.listenter.getRecyclerListData();
                 }
             }
@@ -120,8 +115,6 @@ public class TRecyclerModule {
         defText.setVisibility(visibility);
     }
 
-
-
     /**
      * 获取 RecyclerView 控件
      *
@@ -129,20 +122,6 @@ public class TRecyclerModule {
      */
     public RecyclerView getRecyclerView() {
         return recyclerView;
-    }
-
-
-    /**
-     * 是否显示列表控件
-     *
-     * @param isShow
-     */
-    public void isShowListLayout(boolean isShow) {
-        if (isShow) {
-            recyclerView.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setVisibility(View.GONE);
-        }
     }
 
     private void initAdapter() throws TRecyclerAdapterException {
@@ -159,7 +138,6 @@ public class TRecyclerModule {
             builder.recyclerAdapter.openLoadAnimation();
             recyclerView.setAdapter(builder.recyclerAdapter);
         }
-
     }
 
     /**
@@ -237,6 +215,11 @@ public class TRecyclerModule {
     public int getPage() {
         return builder.page;
     }
+
+    public void setPage(int page){
+        builder.page = page;
+    }
+
     /**
      * 获取页面条目大小
      *
@@ -246,6 +229,9 @@ public class TRecyclerModule {
         return builder.pageSize;
     }
 
+    public void setPageSize(int pageSize){
+        builder.pageSize = pageSize;
+    }
 
     /**
      * 是否显示默认布局
@@ -259,10 +245,27 @@ public class TRecyclerModule {
         if (isShow) {
             state = 1;
             defRl.setVisibility(View.VISIBLE);
+            isShowListLayout(false);
         } else {
             defRl.setVisibility(View.GONE);
+            isShowListLayout(true);
         }
     }
+
+
+    /**
+     * 是否显示列表控件
+     *
+     * @param isShow
+     */
+    public void isShowListLayout(boolean isShow) {
+        if (isShow) {
+            recyclerView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.GONE);
+        }
+    }
+
 
     public static class Builder{
 

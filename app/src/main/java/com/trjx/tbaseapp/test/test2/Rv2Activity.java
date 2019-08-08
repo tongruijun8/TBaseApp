@@ -35,6 +35,7 @@ public class Rv2Activity extends DemoMVPActivity<RvView, RvPresenter>
                 .setClickDefaultPage(false)
                 .setDefImgRes(R.mipmap.default_list)
                 .setDefTextStr("数据异常")
+                .setClickDefaultPage(true)
                 .setPage(1)
                 .setPageSize(20)
                 .setTRecyclerViewListenter(this)
@@ -57,7 +58,6 @@ public class Rv2Activity extends DemoMVPActivity<RvView, RvPresenter>
     @Override
     public void testSuccess(List<?> testBeanList) {
         recyclerModule.bindListData(testBeanList);
-        recyclerModule.setRefreshing(false);
     }
 
     @Override
@@ -68,5 +68,12 @@ public class Rv2Activity extends DemoMVPActivity<RvView, RvPresenter>
     @Override
     public void getRecyclerListData() {
         getPresenter().testDate(recyclerModule.getPage());
+    }
+
+
+    @Override
+    public void tPostError(String errorMsg) {
+        super.tPostError(errorMsg);
+        recyclerModule.setRefreshing(false);
     }
 }

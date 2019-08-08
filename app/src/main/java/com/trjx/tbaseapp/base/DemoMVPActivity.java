@@ -38,4 +38,9 @@ public abstract class DemoMVPActivity<V extends TView,P extends TPresenter<V, De
 
     }
 
+    @Override
+    public void tPostError(String errorMsg) {
+        super.tPostError(errorMsg);
+
+    }
 }

@@ -31,7 +31,7 @@ public class TXListviewModule implements XListView.IXListViewListener {
     /**
      * 加载刷新时间
      */
-    public static final int TIME_LR = 2000;
+    public static final int TIME_LR = 1000;
 
     /* 每页大小 */
     private int pageSize = 20;
@@ -183,26 +183,20 @@ public class TXListviewModule implements XListView.IXListViewListener {
 
     @Override
     public void onRefresh() {
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                page = 1;
-                if (null != listenter) {
-                    listenter.getXListData(page);
-                }
+        mHandler.postDelayed(() -> {
+            page = 1;
+            if (null != listenter) {
+                listenter.getXListData(page);
             }
         }, TIME_LR);
     }
 
     @Override
     public void onLoadMore() {
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                page++;
-                if (null != listenter) {
-                    listenter.getXListData(page);
-                }
+        mHandler.postDelayed(() -> {
+            page++;
+            if (null != listenter) {
+                listenter.getXListData(page);
             }
         }, TIME_LR);
     }
