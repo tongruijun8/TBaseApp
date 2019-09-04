@@ -32,4 +32,9 @@ implements MainOneView{
         return new MainOnePresenter(this);
     }
 
+    @Override
+    public void initData() {
+        super.initData();
+
+    }
 }

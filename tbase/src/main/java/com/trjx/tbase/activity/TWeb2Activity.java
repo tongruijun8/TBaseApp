@@ -21,7 +21,7 @@ import com.trjx.tbase.module.titlemodule.TitleModule;
 
 public abstract class TWeb2Activity extends InitActivity implements TWebJsConstraint, TitleListenter {
 
-    private TitleModule titleModule;
+    protected TitleModule titleModule;
 
     protected WebView webView;
     private ProgressBar progressBar;

@@ -18,6 +18,12 @@ public abstract class DemoMVPActivity<V extends TView,P extends TPresenter<V, De
         titleModule = new TitleModule(context, rootView);
     }
 
+
+    @Override
+    protected DemoModel initModel() {
+        return new DemoModel();
+    }
+
     @Override
     public void tPostFail(int resultState) {
         super.tPostFail(resultState);

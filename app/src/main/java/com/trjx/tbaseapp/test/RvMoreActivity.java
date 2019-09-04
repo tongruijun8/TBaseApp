@@ -10,7 +10,6 @@ import com.trjx.tbase.module.recyclermodule.TRecyclerModule;
 import com.trjx.tbase.module.recyclermodule.TRecyclerViewListenter;
 import com.trjx.tbaseapp.R;
 import com.trjx.tbaseapp.base.DemoMVPActivity;
-import com.trjx.tbaseapp.http.DemoModel;
 import com.trjx.tlibs.uils.ToastUtil2;
 
 import java.util.List;
@@ -52,12 +51,6 @@ public class RvMoreActivity extends DemoMVPActivity<RvView, RvPresenter>
     protected RvPresenter initPersenter() {
         return new RvPresenter(this);
     }
-
-    @Override
-    protected DemoModel initModel() {
-        return new DemoModel();
-    }
-
 
     @Override
     public void testSuccess(List<?> testBeanList) {

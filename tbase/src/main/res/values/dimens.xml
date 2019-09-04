@@ -24,6 +24,12 @@
     <dimen name="grid_expected_size">120dp</dimen>
 
 
+    <!-- TFilterModule2  -->
+    <dimen name="filter_tab_height">36dp</dimen>
+    <dimen name="filter_item_item_height">40dp</dimen>
+
+
+
 
     <!-- TSwitchModule 参数 -->
     <dimen name="tswitch_w">180dp</dimen>

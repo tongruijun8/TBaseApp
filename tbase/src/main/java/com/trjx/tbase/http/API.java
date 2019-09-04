@@ -1,5 +1,5 @@
 package com.trjx.tbase.http;
-
+@Deprecated
 public interface API {
 
 //

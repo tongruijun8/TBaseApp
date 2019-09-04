@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
@@ -19,7 +18,8 @@ import com.trjx.tlibs.views.TViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class NavBottomActivity extends InitActivity implements BottomNavigationView.OnNavigationItemReselectedListener, BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
+public abstract class NavBottomActivity extends InitActivity implements BottomNavigationView.OnNavigationItemReselectedListener,
+        BottomNavigationView.OnNavigationItemSelectedListener{
 
     protected BottomNavigationView mBottomNavView;
     protected TViewPager mViewpager;
@@ -81,8 +81,7 @@ public abstract class NavBottomActivity extends InitActivity implements BottomNa
         tViewPagerStateAdapter.setmFragments(fragmentList);
         mViewpager.setAdapter(tViewPagerStateAdapter);
         mViewpager.setOffscreenPageLimit(fragmentList.size());
-        mViewpager.setScanScroll(false);
-        mViewpager.addOnPageChangeListener(this);
+
     }
 
 
@@ -124,14 +123,14 @@ public abstract class NavBottomActivity extends InitActivity implements BottomNa
         }
         menuItem = mBottomNavView.getMenu().getItem(position);
         menuItem.setChecked(true);
-        selectTabItem(position);
+        mViewpager.setCurrentItem(position, smoothScroll);
+        fragmentList.get(position).initData();
     }
 
 
     private boolean selectTabItem(int position) {
         if (position > -1) {
             fragmentList.get(position).initData();
-            mViewpager.setCurrentItem(position, smoothScroll);
             return true;
         }
         return false;
@@ -159,21 +158,12 @@ public abstract class NavBottomActivity extends InitActivity implements BottomNa
             index = 3;
         }
 
-        return selectTabItem(index);
+        if (index > -1) {
+            mViewpager.setCurrentItem(index, smoothScroll);
+            return true;
+        }
+        return false;
     }
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        skipTab(position);
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
 }

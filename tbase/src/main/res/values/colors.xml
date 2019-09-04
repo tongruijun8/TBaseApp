@@ -62,6 +62,18 @@
     <color name="color_filter_item_">#0c0e20</color>
     <color name="color_filter_item_select">#5b9ac5</color>
 
+    <!-- TFilterModule2 相关 -->
+    <color name="filter_all_bg">#44888888</color>
+    <color name="filter_tab_bg">#ffffff</color>
+    <color name="filter_item_bg">#ffffff</color>
+    <color name="filter_item_select_bg">#e1e1e1</color>
+    <color name="filter_tab_textcolor" >#333333</color>
+    <color name="filter_tab_select_textcolor" >#5b9ac5</color>
+    <color name="filter_item_textcolor">#666666</color>
+    <color name="filter_item_select_textcolor">#333333</color>
+
+
+
     <!-- dialog 相关 -->
     <color name="dialog_zhuse">#5b9ac5</color>
     <color name="dialog_white">#ffffff</color>

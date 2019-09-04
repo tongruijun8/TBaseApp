@@ -23,5 +23,9 @@ implements MainThreeView{
     protected MainThreePresenter initPersenter() {
         return new MainThreePresenter(this);
     }
+    @Override
+    public void initData() {
+        super.initData();
 
+    }
 }

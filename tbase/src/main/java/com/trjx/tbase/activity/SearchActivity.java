@@ -207,6 +207,7 @@ public abstract class SearchActivity<B,Adapter extends TBaseAdapter2>
         }
     }
 
+
     protected abstract Adapter initAdapter(List<B> infoList);
 
 

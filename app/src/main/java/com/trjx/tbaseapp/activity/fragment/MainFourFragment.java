@@ -23,5 +23,9 @@ implements MainFourView{
     protected MainFourPresenter initPersenter() {
         return new MainFourPresenter(this);
     }
+    @Override
+    public void initData() {
+        super.initData();
 
+    }
 }

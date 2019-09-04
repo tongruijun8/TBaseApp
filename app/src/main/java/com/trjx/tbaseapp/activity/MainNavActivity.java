@@ -10,7 +10,7 @@ import com.trjx.tbaseapp.activity.fragment.MainTwoFragment;
 public class MainNavActivity extends NavBottomActivity {
     @Override
     protected boolean initSmoothScroll() {
-        return false;
+        return true;
     }
 
     @Override

@@ -19,6 +19,32 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
  */
 public class GlideUtile {
 
+
+
+    /**
+     *
+     *
+     * 适用于列表：配合列表滚动事件
+     *
+     * 当滚动停止的时候，加载图片
+     *
+     * @param context
+     */
+    public static void resumeRequests(Context context){
+        Glide.with(context).resumeRequests();
+    }
+    /**
+     * 适用于列表：配合列表滚动事件
+     *
+     * 当滚动的时候，暂停加载图片
+     *
+     * @param context
+     */
+    public static void pauseRequests(Context context){
+        Glide.with(context).pauseRequests();
+    }
+
+
     /**
      * 一般的加载
      * @param context

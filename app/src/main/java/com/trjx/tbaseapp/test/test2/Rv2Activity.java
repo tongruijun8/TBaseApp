@@ -8,7 +8,6 @@ import com.trjx.tbase.module.recyclermodule.TRecyclerModule;
 import com.trjx.tbase.module.recyclermodule.TRecyclerViewListenter;
 import com.trjx.tbaseapp.R;
 import com.trjx.tbaseapp.base.DemoMVPActivity;
-import com.trjx.tbaseapp.http.DemoModel;
 import com.trjx.tbaseapp.test.RvPresenter;
 import com.trjx.tbaseapp.test.RvView;
 
@@ -47,11 +46,6 @@ public class Rv2Activity extends DemoMVPActivity<RvView, RvPresenter>
     @Override
     protected RvPresenter initPersenter() {
         return new RvPresenter(this);
-    }
-
-    @Override
-    protected DemoModel initModel() {
-        return new DemoModel();
     }
 
 

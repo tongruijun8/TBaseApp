@@ -24,4 +24,11 @@ implements MainTwoView{
         return new MainTwoPresenter(this);
     }
 
+    @Override
+    public void initData() {
+        super.initData();
+
+    }
+
+
 }
