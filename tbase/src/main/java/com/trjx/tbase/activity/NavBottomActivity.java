@@ -18,18 +18,30 @@ import com.trjx.tlibs.views.TViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 底部导航按钮需参考 navigation_bottom.xml menu布局，注意id不能改变
+ *
+ * 参数：smoothScroll 是否带滚动动画
+ * 参数：reselectedRefresh 是否底部按钮重复选择刷新
+ *
+ * 注：底部按钮最多支持5个
+ *
+ */
 public abstract class NavBottomActivity extends InitActivity implements BottomNavigationView.OnNavigationItemReselectedListener,
         BottomNavigationView.OnNavigationItemSelectedListener{
 
     protected BottomNavigationView mBottomNavView;
     protected TViewPager mViewpager;
     //ViewPager是否带滚动动画
-    private boolean smoothScroll;
+    protected boolean smoothScroll = false;
+
+    //    底部按钮重复选择刷新
+    protected boolean reselectedRefresh = false;
 
     //fragment数据集合
     protected List<TFragment> fragmentList = new ArrayList<>();
 
-    private TViewPagerStateAdapter tViewPagerStateAdapter;
+    protected TViewPagerStateAdapter tViewPagerStateAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +64,6 @@ public abstract class NavBottomActivity extends InitActivity implements BottomNa
 
     @Override
     protected void initView() {
-
-        smoothScroll = initSmoothScroll();
 
         mBottomNavView = findViewById(R.id.bottom_nav_view);
         mViewpager = findViewById(R.id.viewpager);
@@ -83,9 +93,6 @@ public abstract class NavBottomActivity extends InitActivity implements BottomNa
         mViewpager.setOffscreenPageLimit(fragmentList.size());
 
     }
-
-
-    protected abstract boolean initSmoothScroll();
 
 
     protected abstract void initFragmentData();
@@ -128,17 +135,22 @@ public abstract class NavBottomActivity extends InitActivity implements BottomNa
     }
 
 
-    private boolean selectTabItem(int position) {
-        if (position > -1) {
-            fragmentList.get(position).initData();
-            return true;
-        }
-        return false;
-    }
-
     @Override
     public void onNavigationItemReselected(@NonNull MenuItem item) {
-
+        if(reselectedRefresh){
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_bottom_item1) {
+                fragmentList.get(0).initData();
+            } else if (itemId == R.id.nav_bottom_item2) {
+                fragmentList.get(1).initData();
+            } else if (itemId == R.id.nav_bottom_item3) {
+                fragmentList.get(2).initData();
+            } else if (itemId == R.id.nav_bottom_item4) {
+                fragmentList.get(3).initData();
+            } else if (itemId == R.id.nav_bottom_item5) {
+                fragmentList.get(4).initData();
+            }
+        }
     }
 
     private MenuItem menuItem;
@@ -147,19 +159,25 @@ public abstract class NavBottomActivity extends InitActivity implements BottomNa
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         menuItem = item;
         int itemId = item.getItemId();
-        int index = -1;
         if (itemId == R.id.nav_bottom_item1) {
-            index = 0;
+            mViewpager.setCurrentItem(0, smoothScroll);
+            fragmentList.get(0).initData();
+            return true;
         } else if (itemId == R.id.nav_bottom_item2) {
-            index = 1;
+            mViewpager.setCurrentItem(1, smoothScroll);
+            fragmentList.get(1).initData();
+            return true;
         } else if (itemId == R.id.nav_bottom_item3) {
-            index = 2;
+            mViewpager.setCurrentItem(2, smoothScroll);
+            fragmentList.get(2).initData();
+            return true;
         } else if (itemId == R.id.nav_bottom_item4) {
-            index = 3;
-        }
-
-        if (index > -1) {
-            mViewpager.setCurrentItem(index, smoothScroll);
+            mViewpager.setCurrentItem(3, smoothScroll);
+            fragmentList.get(3).initData();
+            return true;
+        } else if (itemId == R.id.nav_bottom_item5) {
+            mViewpager.setCurrentItem(4, smoothScroll);
+            fragmentList.get(4).initData();
             return true;
         }
         return false;

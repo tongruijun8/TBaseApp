@@ -4,19 +4,23 @@
     <item
         android:id="@+id/nav_bottom_item1"
         android:icon="@mipmap/home_shouye_n"
-        android:title="首页" />
+        android:title="tab1" />
     <item
         android:id="@+id/nav_bottom_item2"
         android:icon="@mipmap/home_dingdan_n"
-        android:title="引导操作" />
+        android:title="tab2" />
     <item
         android:id="@+id/nav_bottom_item3"
         android:icon="@mipmap/home_xiaoxi_n"
-        android:title="消息" />
+        android:title="tab3" />
     <item
         android:id="@+id/nav_bottom_item4"
         android:icon="@mipmap/home_wode_n"
-        android:title="我的" />
+        android:title="tab4" />
+    <item
+        android:id="@+id/nav_bottom_item5"
+        android:icon="@mipmap/home_wode_n"
+        android:title="tab5" />
 
 
 </menu>
