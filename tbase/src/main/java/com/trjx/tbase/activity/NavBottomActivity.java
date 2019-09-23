@@ -49,6 +49,8 @@ public abstract class NavBottomActivity extends InitActivity implements BottomNa
         setContentView(initLayout());
         initWork();
         initView();
+
+
     }
 
     /**

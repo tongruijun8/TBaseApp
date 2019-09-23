@@ -12,8 +12,13 @@ import com.trjx.R;
 
 public class DotView extends TBaseView {
 
+
+
+
+
+
     // 默认颜色
-    private String defaultColor = "#D81B60";
+//    private String defaultColor = "#D81B60";
 
     /**
      * 点的类型
@@ -52,18 +57,34 @@ public class DotView extends TBaseView {
 
     public void setDotHollowWidth(int dotHollowWidth) {
         this.dotHollowWidth = dotHollowWidth;
+        if (paintHollow != null) {
+            paintHollow.setStrokeWidth(dotHollowWidth);
+        }
     }
 
     public void setDotLineWidth(int dotLineWidth) {
         this.dotLineWidth = dotLineWidth;
+        if (paintLine != null) {
+            paintLine.setStrokeWidth(dotLineWidth);
+        }
+
     }
 
     public void setDotColor(int dotColor) {
         this.dotColor = dotColor;
+        if (paintFill != null) {
+            paintFill.setColor(dotColor);
+        }
+        if (paintHollow != null) {
+            paintHollow.setColor(dotColor);
+        }
     }
 
     public void setDotColorLine(int dotColorLine) {
         this.dotColorLine = dotColorLine;
+        if (paintLine != null) {
+            paintLine.setColor(dotColorLine);
+        }
     }
 
     /**
@@ -109,7 +130,6 @@ public class DotView extends TBaseView {
 
     }
 
-
     public DotView(Context context) {
         super(context);
     }
@@ -129,8 +149,8 @@ public class DotView extends TBaseView {
         dotType = a.getInteger(R.styleable.DotView_dotview_type, DotType.DOT_TYPE_BLANK);
         dotHollowWidth = a.getDimensionPixelSize(R.styleable.DotView_dotview_hollow_width, 2);
         dotLineWidth = a.getDimensionPixelSize(R.styleable.DotView_dotview_line_size, 1);
-        dotColor = a.getColor(R.styleable.DotView_dotview_color, Color.parseColor(defaultColor));
-        dotColorLine = a.getColor(R.styleable.DotView_dotview_color_line, Color.parseColor(defaultColor));
+        dotColor = a.getColor(R.styleable.DotView_dotview_color, Color.parseColor("#D81B60"));
+        dotColorLine = a.getColor(R.styleable.DotView_dotview_color_line, Color.parseColor("#D81B60"));
         a.recycle();
     }
 
@@ -140,8 +160,8 @@ public class DotView extends TBaseView {
         dotType = DotType.DOT_TYPE_BLANK;
         dotHollowWidth = 2;
         dotLineWidth = 1;
-        dotColor = Color.parseColor(defaultColor);
-        dotColorLine = Color.parseColor(defaultColor);
+        dotColor = Color.parseColor("#D81B60");
+        dotColorLine = Color.parseColor("#D81B60");
     }
 
     //画笔
@@ -153,24 +173,25 @@ public class DotView extends TBaseView {
     public void initPaint() {
         //实心圆的画笔
         paintFill = new Paint();
-        paintFill.setColor(dotColor);
         paintFill.setAntiAlias(true);
         paintFill.setStyle(Paint.Style.FILL);
         paintFill.setStrokeCap(Paint.Cap.SQUARE);
         paintFill.setStrokeWidth(1);
+        paintFill.setColor(dotColor);
+
         //空心圆的画笔
         paintHollow = new Paint();
-        paintHollow.setColor(dotColor);
         paintHollow.setAntiAlias(true);
         paintHollow.setStyle(Paint.Style.STROKE);
         paintHollow.setStrokeCap(Paint.Cap.SQUARE);
+        paintHollow.setColor(dotColor);
         paintHollow.setStrokeWidth(dotHollowWidth);
         //线的画笔
         paintLine = new Paint();
-        paintLine.setColor(dotColorLine);
         paintLine.setAntiAlias(true);
         paintLine.setStyle(Paint.Style.FILL);
         paintLine.setStrokeCap(Paint.Cap.SQUARE);
+        paintLine.setColor(dotColorLine);
         paintLine.setStrokeWidth(dotLineWidth);
 
     }

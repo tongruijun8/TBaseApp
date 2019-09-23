@@ -35,12 +35,12 @@ public abstract class SearchActivity<B,Adapter extends TBaseAdapter2>
 
     public static String searchHistory = "SearchHistory";
 
-    private EditText editText;
-    private ListView listView;
-    private LinearLayout historyLL;
-    private TextView btnClear;
+    protected EditText editText;
+    protected ListView listView;
+    protected LinearLayout historyLL;
+    protected TextView btnClear;
 
-    private ListView listview_history;
+    protected ListView listview_history;
 
     protected ImageView empty;
 
@@ -105,12 +105,12 @@ public abstract class SearchActivity<B,Adapter extends TBaseAdapter2>
 
     }
 
-    private boolean isSearch = true;
+    protected boolean isSearch = true;
 
-    private List<String> historyData = new ArrayList<>();
-    private ArrayAdapter arrayAdapter;
+    protected List<String> historyData = new ArrayList<>();
+    protected ArrayAdapter arrayAdapter;
 
-    private void getSearchHistoryData() {
+    protected void getSearchHistoryData() {
         historyData.clear();
         String searchHistoryStr = (String) SharedPreferencesUtils.getParam(context,searchHistory, "");
         Logger.t("----------searchHistoryStr = " + searchHistoryStr);
@@ -132,7 +132,7 @@ public abstract class SearchActivity<B,Adapter extends TBaseAdapter2>
         }
     }
 
-    private void searchBefore(){
+    protected void searchBefore(){
         if(!isSearch){
             return;
         }
@@ -149,7 +149,7 @@ public abstract class SearchActivity<B,Adapter extends TBaseAdapter2>
         searchData(ssStr);
     }
 
-    private void searchData(String searchStr){
+    protected void searchData(String searchStr){
         historyLL.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
         infoList.clear();
@@ -158,7 +158,7 @@ public abstract class SearchActivity<B,Adapter extends TBaseAdapter2>
         changeSearchData(searchStr);
     }
 
-    private void changeSearchData(String searchStr){
+    protected void changeSearchData(String searchStr){
         StringBuilder stringBuilder = new StringBuilder();
         int totalNum = 0;
         if (historyData.size() > 0) {
@@ -188,7 +188,7 @@ public abstract class SearchActivity<B,Adapter extends TBaseAdapter2>
 
     protected List<B> infoList = new ArrayList<>();
 
-    private Adapter adapter;
+    protected Adapter adapter;
 
     public void getSearchDataList(List<B> infoList) {
         isSearch = true;
