@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,13 +19,11 @@ import com.trjx.R;
 import java.util.List;
 
 /**
-*
-* 作者：小童
-* 创建时间：2019/8/6 14:23
-*
-* 描述：RecyclerView 模块化
-*
-*/
+ * 作者：小童
+ * 创建时间：2019/8/6 14:23
+ * <p>
+ * 描述：RecyclerView 模块化
+ */
 public class TRecyclerModule {
 
     private Builder builder;
@@ -38,6 +37,7 @@ public class TRecyclerModule {
     private RelativeLayout defRl;
     private ImageView defImg;
     private TextView defText;
+    private LinearLayout defLinearLayout;
 
     //列表布局的控件
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -47,6 +47,11 @@ public class TRecyclerModule {
         defRl = rootView.findViewById(R.id.layout_default_all);
         defImg = rootView.findViewById(R.id.layout_default_img);
         defText = rootView.findViewById(R.id.layout_default_text);
+        defLinearLayout = rootView.findViewById(R.id.layout_default_linearlayout);
+
+        defImg.setImageResource(builder.resDrawable);
+        defText.setText(builder.defTextStr);
+
         defRl.setOnClickListener(v -> {
             if (!builder.clickDefaultPage) {
                 return;
@@ -84,6 +89,21 @@ public class TRecyclerModule {
         } catch (TRecyclerAdapterException e) {
             e.printStackTrace();
         }
+    }
+
+    //获取默认布局的view
+    public RelativeLayout getDefView() {
+        return defRl;
+    }
+
+    //添加其它view，用于默认页面的扩展：如：默认页面需要添加一个跳转按钮等，可以使用此方法
+    public void addOtherView(View view){
+        defLinearLayout.addView(view);
+    }
+
+    //获取默认布局的view
+    public RelativeLayout getOView() {
+        return defRl;
     }
 
 
@@ -127,7 +147,7 @@ public class TRecyclerModule {
     private void initAdapter() throws TRecyclerAdapterException {
         if (builder.recyclerAdapter == null) {
             throw new TRecyclerAdapterException();
-        }else{
+        } else {
             builder.recyclerAdapter.setOnLoadMoreListener(() -> {
                 if (builder.listenter != null) {
                     builder.page++;
@@ -142,12 +162,14 @@ public class TRecyclerModule {
 
     /**
      * 绑定数据
+     *
      * @param listData
      */
     public void bindListData(List<?> listData) {
         this.bindListData(listData, false);//默认显示
     }
-    public void bindListData(List<?> listData,boolean gone) {
+
+    public void bindListData(List<?> listData, boolean gone) {
 
         if (builder.recyclerAdapter == null) {
             return;
@@ -157,7 +179,7 @@ public class TRecyclerModule {
             builder.recyclerAdapter.setNewData(listData);
             if (listData == null || size == 0) {
                 isShowDefLayout(true);
-            }else{
+            } else {
                 isShowDefLayout(false);
             }
 
@@ -190,9 +212,10 @@ public class TRecyclerModule {
 
     /**
      * 刷新按钮是否显示
+     *
      * @param isRefresh true 显示，反之不显示
-      */
-    public void setRefreshing(boolean isRefresh){
+     */
+    public void setRefreshing(boolean isRefresh) {
         swipeRefreshLayout.setRefreshing(isRefresh);
     }
 
@@ -200,9 +223,10 @@ public class TRecyclerModule {
 
     /**
      * 可以设置swipeRefreshLayout的使用：（默认是可以使用的）
-     * @param enable  false 为禁用 ，true为恢复使用
+     *
+     * @param enable false 为禁用 ，true为恢复使用
      */
-    public void setSwipeRefreshEnable(boolean enable){
+    public void setSwipeRefreshEnable(boolean enable) {
         swipeRefreshLayout.setEnabled(enable);
     }
 
@@ -216,7 +240,7 @@ public class TRecyclerModule {
         return builder.page;
     }
 
-    public void setPage(int page){
+    public void setPage(int page) {
         builder.page = page;
     }
 
@@ -229,7 +253,7 @@ public class TRecyclerModule {
         return builder.pageSize;
     }
 
-    public void setPageSize(int pageSize){
+    public void setPageSize(int pageSize) {
         builder.pageSize = pageSize;
     }
 
@@ -267,7 +291,7 @@ public class TRecyclerModule {
     }
 
 
-    public static class Builder{
+    public static class Builder {
 
         private Context context;
 
@@ -280,7 +304,7 @@ public class TRecyclerModule {
          */
         private boolean clickDefaultPage = false;
 
-        private String defTextStr = "暂无数据";
+        private String defTextStr;
 
         private @DrawableRes
         int resDrawable;
@@ -301,6 +325,8 @@ public class TRecyclerModule {
 
         public Builder(Context context) {
             this.context = context;
+            defTextStr = "暂无数据";
+            resDrawable = R.mipmap.default_list;
         }
 
         public Builder setPageSize(int pageSize) {
@@ -319,7 +345,9 @@ public class TRecyclerModule {
         }
 
         public Builder setDefTextStr(String defTextStr) {
-            this.defTextStr = defTextStr;
+            if (defTextStr != null && !defTextStr.equals("")) {
+                this.defTextStr = defTextStr;
+            }
             return this;
         }
 
@@ -353,13 +381,13 @@ public class TRecyclerModule {
         /**
          * 创建适配器
          */
-        public <Adapter extends BaseQuickAdapter> Builder createAdapter(Adapter adapter){
+        public <Adapter extends BaseQuickAdapter> Builder createAdapter(Adapter adapter) {
             recyclerAdapter = adapter;
             return this;
         }
 
 
-        public TRecyclerModule creat(View rootView){
+        public TRecyclerModule creat(View rootView) {
             if (layoutManager == null) {
                 layoutManager = new LinearLayoutManager(context);
             }

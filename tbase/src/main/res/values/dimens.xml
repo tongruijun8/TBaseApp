@@ -28,15 +28,11 @@
     <dimen name="filter_tab_height">36dp</dimen>
     <dimen name="filter_item_item_height">40dp</dimen>
 
-
-
-
     <!-- TSwitchModule 参数 -->
     <dimen name="tswitch_w">180dp</dimen>
     <dimen name="tswitch_h">36dp</dimen>
     <dimen name="tswitch_padding">2dp</dimen>
-
-
+    <dimen name="tswitch_tab_space">2dp</dimen>
 
 
     <!--外边线的宽度-->

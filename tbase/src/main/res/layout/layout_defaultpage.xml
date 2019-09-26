@@ -27,4 +27,13 @@
         android:gravity="center"
         android:layout_marginTop="20dp"
         />
+    
+    <LinearLayout
+        android:id="@+id/layout_default_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:orientation="vertical"
+        android:layout_below="@id/layout_default_text"
+        ></LinearLayout>
+    
 </RelativeLayout>
