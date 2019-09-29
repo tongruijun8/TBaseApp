@@ -3,19 +3,14 @@ package com.trjx.tbase.module.recyclermodule;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import androidx.annotation.DrawableRes;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.trjx.R;
-import com.trjx.tlibs.uils.Logger;
 
 import java.util.List;
 
@@ -24,8 +19,10 @@ import java.util.List;
  * 创建时间：2019/8/6 14:23
  * <p>
  * 描述：RecyclerView 模块化
+ * 待测试
  */
-public class TRecyclerModule {
+@Deprecated
+public class TRecyclerModule2 {
 
     private Builder builder;
 
@@ -34,46 +31,15 @@ public class TRecyclerModule {
      */
     private int state = 0;
 
-    //默认布局的控件
-    private RelativeLayout defRl;
-    private ImageView defImg;
-    private TextView defText;
-    private LinearLayout defLinearLayout;
-
     //列表布局的控件
     private SwipeRefreshLayout swipeRefreshLayout;
+    private RelativeLayout relativeLayout;
     private RecyclerView recyclerView;
 
     private void initView(View rootView) {
-        defRl = rootView.findViewById(R.id.layout_default_all);
-        defImg = rootView.findViewById(R.id.layout_default_img);
-        defText = rootView.findViewById(R.id.layout_default_text);
-        defLinearLayout = rootView.findViewById(R.id.layout_default_linearlayout);
-
-        defImg.setImageResource(builder.resDrawable);
-        defText.setText(builder.defTextStr);
-
-        defRl.setOnClickListener(v -> {
-            if (!builder.clickDefaultPage) {
-                return;
-            }
-            defRl.setVisibility(View.GONE);
-            isShowListLayout(true);
-            if (state == 2) {//点击请求异常页面的事件
-                state = 0;
-                if (null != builder.listenter) {
-                    builder.listenter.onClickRecyclerExceptionPageEvent();
-                }
-            } else if (state == 1) {//点击暂无数据页面的事件，重新请求页面数据
-                state = 0;
-                if (null != builder.listenter) {
-                    setRefreshing(true);
-                    builder.listenter.getRecyclerListData();
-                }
-            }
-        });
 
         swipeRefreshLayout = rootView.findViewById(R.id.swiperefreshlayout);
+        relativeLayout = rootView.findViewById(R.id.relativelayout);
         recyclerView = rootView.findViewById(R.id.recyclerview);
         isShowListLayout(true);
         swipeRefreshLayout.setColorSchemeColors(builder.colors);
@@ -83,6 +49,10 @@ public class TRecyclerModule {
                 builder.listenter.getRecyclerListData();
             }
         });
+
+        if (builder.defaultPageView != null) {
+            relativeLayout.addView(builder.defaultPageView);
+        }
         recyclerView.setLayoutManager(builder.layoutManager);
         setRefreshing(true);
         try {
@@ -92,54 +62,37 @@ public class TRecyclerModule {
         }
     }
 
-    //获取默认布局的view
-    public RelativeLayout getDefView() {
-        return defRl;
-    }
 
-    //添加其它view，用于默认页面的扩展：如：默认页面需要添加一个跳转按钮等，可以使用此方法
-    public void addOtherView(View view) {
-        defLinearLayout.addView(view);
+    //显示默认页面
+    public void showDefaultPageView(){
+        if (builder.defaultPageView != null) {
+            builder.defaultPageView.setVisibility(View.VISIBLE);
+        }
     }
-
-    //移除添加的View
-    public void removeOtherView() {
-        defLinearLayout.removeAllViews();
-    }
-
-    //获取默认布局的view
-    public RelativeLayout getOView() {
-        return defRl;
+    //隐藏默认页面
+    public void hideDefaultPageView(){
+        if (builder.defaultPageView != null) {
+            builder.defaultPageView.setVisibility(View.GONE);
+        }
     }
 
 
-    /**
-     * 设置默认布局的图片
-     *
-     * @param resDrawable
-     */
-    public void setDefImg(@DrawableRes int resDrawable) {
-        defImg.setImageResource(resDrawable);
+    public void onClickDefaulePageView(){
+        isShowListLayout(true);
+        if (state == 2) {//点击请求异常页面的事件
+            state = 0;
+            if (null != builder.listenter) {
+                builder.listenter.onClickRecyclerExceptionPageEvent();
+            }
+        } else if (state == 1) {//点击暂无数据页面的事件，重新请求页面数据
+            state = 0;
+            if (null != builder.listenter) {
+                setRefreshing(true);
+                builder.listenter.getRecyclerListData();
+            }
+        }
     }
 
-    /**
-     * 设置默认布局的文本
-     *
-     * @param defTextStr
-     */
-    public void setDefText(String defTextStr) {
-        defText.setText(defTextStr == null ? "" : defTextStr);
-    }
-
-    /**
-     * Set the visibility state of this view.
-     *
-     * @param visibility One of {View.VISIBLE,View.INVISIBLE,or View.GONE.}
-     * @attr ref android.R.styleable#View_visibility
-     */
-    public void setDefTextViewVisibility(int visibility) {
-        defText.setVisibility(visibility);
-    }
 
     /**
      * 获取 RecyclerView 控件
@@ -211,7 +164,6 @@ public class TRecyclerModule {
     public void error() {
         if (builder.page == 1) {
             state = 2;
-            setDefImg(R.mipmap.default_list);
             isShowDefLayout(true);
         }
     }
@@ -274,10 +226,10 @@ public class TRecyclerModule {
         }
         if (isShow) {
             state = 1;
-            defRl.setVisibility(View.VISIBLE);
+            showDefaultPageView();
             isShowListLayout(false);
         } else {
-            defRl.setVisibility(View.GONE);
+            hideDefaultPageView();
             isShowListLayout(true);
         }
     }
@@ -297,22 +249,6 @@ public class TRecyclerModule {
     }
 
 
-    public void deleteListData(int position) {
-        try {
-            builder.recyclerAdapter.remove(position);
-            if (builder.recyclerAdapter.getData().size() == 0) {
-                state = 1;
-                defRl.setVisibility(View.VISIBLE);
-                isShowListLayout(false);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Logger.t("删除条目数据异常");
-        }
-    }
-
-
     public static class Builder {
 
         private Context context;
@@ -321,15 +257,8 @@ public class TRecyclerModule {
         private int pageSize = 20;
 
         private int page = 1;
-        /**
-         * 是否可以点击默认页面:默认不能点击
-         */
-        private boolean clickDefaultPage = false;
 
-        private String defTextStr;
-
-        private @DrawableRes
-        int resDrawable;
+        private View defaultPageView;
 
         private TRecyclerViewListenter listenter;
 
@@ -347,8 +276,6 @@ public class TRecyclerModule {
 
         public Builder(Context context) {
             this.context = context;
-            defTextStr = "暂无数据";
-            resDrawable = R.mipmap.default_list;
         }
 
         public Builder setPageSize(int pageSize) {
@@ -361,20 +288,10 @@ public class TRecyclerModule {
             return this;
         }
 
-        public Builder setClickDefaultPage(boolean clickDefaultPage) {
-            this.clickDefaultPage = clickDefaultPage;
-            return this;
-        }
 
-        public Builder setDefTextStr(String defTextStr) {
-            if (defTextStr != null && !defTextStr.equals("")) {
-                this.defTextStr = defTextStr;
-            }
-            return this;
-        }
 
-        public Builder setDefImgRes(@DrawableRes int resDrawable) {
-            this.resDrawable = resDrawable;
+        public Builder setDefaultPageView(View defaultPageView) {
+            this.defaultPageView = defaultPageView;
             return this;
         }
 
@@ -403,18 +320,18 @@ public class TRecyclerModule {
         /**
          * 创建适配器
          */
-        public <Adapter extends BaseQuickAdapter> Builder createAdapter(Adapter adapter) {
+        public <Adapter extends BaseQuickAdapter> Builder setAdapter(Adapter adapter) {
             recyclerAdapter = adapter;
             return this;
         }
 
 
-        public TRecyclerModule creat(View rootView) {
+        public TRecyclerModule2 creat(View rootView) {
             if (layoutManager == null) {
                 layoutManager = new LinearLayoutManager(context);
             }
 
-            TRecyclerModule recyclerModule_ = new TRecyclerModule();
+            TRecyclerModule2 recyclerModule_ = new TRecyclerModule2();
             recyclerModule_.builder = this;
             recyclerModule_.initView(rootView);
             return recyclerModule_;
