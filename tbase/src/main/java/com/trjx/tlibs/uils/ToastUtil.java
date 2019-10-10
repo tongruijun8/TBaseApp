@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 /**
  * Created by Administrator on 2017/10/9.
+ * 推荐使用：SnackbarUtil
  */
 @Deprecated
 public class ToastUtil {

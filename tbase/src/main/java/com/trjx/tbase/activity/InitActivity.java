@@ -19,7 +19,7 @@ import com.trjx.tbase.manage.NetWorkManage;
 import com.trjx.tbase.mvp.TView;
 import com.trjx.tbase.tdialog.TLoadingDialog;
 import com.trjx.tlibs.uils.Logger;
-import com.trjx.tlibs.uils.ToastUtil;
+import com.trjx.tlibs.uils.SnackbarUtil;
 
 
 public class InitActivity extends AppCompatActivity implements TView {
@@ -132,7 +132,7 @@ public class InitActivity extends AppCompatActivity implements TView {
         }
         Logger.t("error = " + errorMsg);
         if (errorMsg.toLowerCase().contains("failed to connect")) {
-            ToastUtil.showToast(context,"服务器找不到了");
+            SnackbarUtil.showToast(rootView,"服务器找不到了");
         }
     }
 
@@ -146,7 +146,7 @@ public class InitActivity extends AppCompatActivity implements TView {
         if(TextUtils.isEmpty(message)){
             return;
         }
-        ToastUtil.showToast(context,message);
+        SnackbarUtil.showToast(rootView,message);
     }
 
     @Override

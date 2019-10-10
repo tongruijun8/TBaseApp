@@ -1,6 +1,9 @@
 package com.trjx.tlibs.uils;
 
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -45,6 +48,25 @@ public class SnackbarUtil {
 //                ToastUtil.showToast(context, "action1");
 //            }
 //        });
+        snackbar.show();
+    }
+
+
+    public static void showToast(View layout,String text){
+        Snackbar snackbar = Snackbar.make(layout, text, Snackbar.LENGTH_SHORT);
+        Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
+        TextView textView = snackbarLayout.findViewById(com.google.android.material.R.id.snackbar_text);
+        textView.setGravity(Gravity.CENTER);
+        textView.setMaxLines(1);
+        textView.setEllipsize(TextUtils.TruncateAt.END);
+        snackbarLayout.setAlpha(0.6f);
+        Snackbar.SnackbarLayout.LayoutParams params = (Snackbar.SnackbarLayout.LayoutParams) snackbarLayout.getLayoutParams();
+        params.gravity = Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM;
+        params.bottomMargin = 200;
+        params.width = Snackbar.SnackbarLayout.LayoutParams.WRAP_CONTENT;
+        params.height = Snackbar.SnackbarLayout.LayoutParams.WRAP_CONTENT;
+        snackbarLayout.setLayoutParams(params);
+
         snackbar.show();
     }
 

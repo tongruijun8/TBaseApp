@@ -28,7 +28,7 @@ import java.util.List;
  *
  *
  */
-public abstract class TRecyclerMoreItemAdapter2 extends BaseQuickAdapter<Object, BaseViewHolder> {
+public abstract class TRecyclerMoreItemAdapter2<T> extends BaseQuickAdapter<T, BaseViewHolder> {
 
     /**
      * layouts indexed with their types
@@ -44,7 +44,7 @@ public abstract class TRecyclerMoreItemAdapter2 extends BaseQuickAdapter<Object,
     public TRecyclerMoreItemAdapter2(int code) {
         this(code, null);
     }
-    public TRecyclerMoreItemAdapter2(int code , @Nullable List<Object> data) {
+    public TRecyclerMoreItemAdapter2(int code , @Nullable List<T> data) {
         super(data);
         this.code = code;
     }
@@ -86,7 +86,7 @@ public abstract class TRecyclerMoreItemAdapter2 extends BaseQuickAdapter<Object,
                 || position < 0
                 || position >= mData.size()) return;
 
-        Object entity = mData.get(position);
+        T entity = mData.get(position);
         if (entity instanceof IExpandable) {
             removeAllChild((IExpandable) entity, position);
         }
@@ -117,7 +117,7 @@ public abstract class TRecyclerMoreItemAdapter2 extends BaseQuickAdapter<Object,
      *
      * @param child 子控件实体
      */
-    protected void removeDataFromParent(Object child) {
+    protected void removeDataFromParent(T child) {
         int position = getParentPosition(child);
         if (position >= 0) {
             IExpandable parent = (IExpandable) mData.get(position);
@@ -133,7 +133,7 @@ public abstract class TRecyclerMoreItemAdapter2 extends BaseQuickAdapter<Object,
      * @return 父 position 在数据列表中的位置
      */
     public int getParentPositionInAll(int position) {
-        List<Object> data = getData();
+        List<T> data = getData();
         MultiItemEntity multiItemEntity = (MultiItemEntity) getItem(position);
 
         if (isExpandable(multiItemEntity)) {
